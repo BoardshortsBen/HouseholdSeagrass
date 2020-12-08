@@ -56,4 +56,9 @@ household.list2<- list(
 household.psem2 <- as.psem(household.list2)
 (household.summary2 <- summary(household.psem2, .progressBar = F))
 household.summary2
-plot(household.psem2)
+plot(household.psem2, return = FALSE, node_attrs = data.frame(shape
+                                                              = "rectangle", color = "black", fillcolor = "white"),
+     edge_attrs = data.frame(style = "solid", color = "black"),
+     ns_dashed = T, alpha = 0.05, show = "std", digits = 3,
+     add_edge_label_spaces = TRUE,)
+
