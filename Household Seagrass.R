@@ -1,5 +1,5 @@
 # Packages
-library(lavaan)
+library(lavaan) #not used so far
 library(piecewiseSEM)
 library(nlme)
 library(lme4)
@@ -20,19 +20,19 @@ household$Community<-as.factor(household$Community)
 #create list of structural equations
 household.list<- list(
   lmer(Household.size ~ Men + Women + Children
-       + (1 | Region) + (1 | Community), data = household),
+       + (1 | Country:Region:Community), data = household, na.action=na.omit),
                       
   lmer(Household.Occupations ~ Household.size
-       + (1 | Region) + (1 | Community), data = household),
+       + (1 | Country:Region:Community), data = household, na.action=na.omit),
                       
-  lmer(Annual.Household.Income ~ Household.Occupations + Household.size + Families
-       + (1 | Region) + (1 | Community), data = household),
+  lmer(Dollar.Day ~ Household.Occupations + Household.size + Families
+       + (1 | Country:Region:Community), data = household, na.action=na.omit),
   
-  lmer(Seagrass ~ Household.size + Families
+  lmer(Seagrass ~ Household.size + Families + Men + Women + Children
         + Own.Boat + Boat.Quantity + Own.Fishing.Gear + Gear.Quantity
-        + Household.Occupations + Annual.Household.Income
+        + Household.Occupations + Dollar.Day
         + Fishing.for.food + Fishing.for.livilihood
-        + (1 | Region) + (1 | Community), data = household)
+        + (1 | Country:Region:Community), data = household, na.action=na.omit)
 )
 
 #Convert to PiecewiseSEM object
@@ -45,20 +45,14 @@ plot(household.psem)
 
 # Refine structral equations
 household.list2<- list(
-  lmer(Household.size ~ Men + Women + Children
-       + (1 | Region) + (1 | Community), data = household),
-  
-  lmer(Seagrass ~ Household.size
-       + Own.Boat
-       + (1 | Region) + (1 | Community), data = household)
+  lmer(Seagrass ~ Own.Boat + Children
+       + Household.Occupations
+       + Fishing.for.livilihood
+       + (1 | Country:Region:Community), data = household, na.action=na.omit)
 )
 
 household.psem2 <- as.psem(household.list2)
 (household.summary2 <- summary(household.psem2, .progressBar = F))
 household.summary2
-plot(household.psem2, return = FALSE, node_attrs = data.frame(shape
-                                                              = "rectangle", color = "black", fillcolor = "white"),
-     edge_attrs = data.frame(style = "solid", color = "black"),
-     ns_dashed = T, alpha = 0.05, show = "std", digits = 3,
-     add_edge_label_spaces = TRUE,)
+plot(household.psem2)
 
