@@ -54,13 +54,8 @@ plot(household.psem)
 household.list2<- list(
   lmer(Household.size ~ Men + Women + Children
        + (1 | Country) + (1 | Region) + (1 | Community), data = household, na.action=na.omit),
-  
-  lmer(Household.Occupations ~ Household.size
-       + (1 | Country) + (1 | Region) + (1 | Community), data = household, na.action=na.omit),
-  
 
   lmer(Seagrass ~ Children
-       + Household.Occupations
        + Fish.Income
        + (1 | Country) + (1 | Region) + (1 | Community), data = household, na.action=na.omit)
 )
