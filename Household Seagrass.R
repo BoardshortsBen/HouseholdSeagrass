@@ -28,12 +28,13 @@ household.list<- list(
   lmer(Dollar.Day ~ Household.Occupations + Household.size + Families
        + (1 | Country:Region:Community), data = household, na.action=na.omit),
   
-  lmer(Seagrass ~ Household.size + Families + Men + Women + Children
+  lmer(Seagrass ~ Household.size + Men + Women + Children + Families
         + Own.Boat + Boat.Quantity + Own.Fishing.Gear + Gear.Quantity
         + Household.Occupations + Dollar.Day
         + Fishing.for.food + Fishing.for.livilihood
         + (1 | Country:Region:Community), data = household, na.action=na.omit)
 )
+
 
 #Convert to PiecewiseSEM object
 household.psem <- as.psem(household.list)
@@ -45,7 +46,7 @@ plot(household.psem)
 
 # Refine structral equations
 household.list2<- list(
-  lmer(Seagrass ~ Own.Boat + Children
+  lmer(Seagrass ~ Children
        + Household.Occupations
        + Fishing.for.livilihood
        + (1 | Country:Region:Community), data = household, na.action=na.omit)
