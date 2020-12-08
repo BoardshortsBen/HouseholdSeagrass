@@ -20,19 +20,25 @@ household$Community<-as.factor(household$Community)
 #create list of structural equations
 household.list<- list(
   lmer(Household.size ~ Men + Women + Children
-       + (1 | Country:Region:Community), data = household, na.action=na.omit),
+       + (1 | Country) + (1 | Region) + (1 | Community), data = household, na.action=na.omit),
                       
   lmer(Household.Occupations ~ Household.size
-       + (1 | Country:Region:Community), data = household, na.action=na.omit),
+       + (1 | Country) + (1 | Region) + (1 | Community), data = household, na.action=na.omit),
                       
-  lmer(Dollar.Day ~ Household.Occupations + Household.size + Families
-       + (1 | Country:Region:Community), data = household, na.action=na.omit),
+  lmer(Dollar.Day ~ Household.Occupations
+       + (1 | Country) + (1 | Region) + (1 | Community), data = household, na.action=na.omit),
+  
+  lmer(Own.Boat ~ Dollar.Day
+       + (1 | Country) + (1 | Region) + (1 | Community), data = household, na.action=na.omit),
+  
+  lmer(Boat.Quantity ~ Dollar.Day + Own.Boat
+       + (1 | Country) + (1 | Region) + (1 | Community), data = household, na.action=na.omit),
   
   lmer(Seagrass ~ Household.size + Men + Women + Children + Families
         + Own.Boat + Boat.Quantity + Own.Fishing.Gear + Gear.Quantity
         + Household.Occupations + Dollar.Day
-        + Fishing.for.food + Fishing.for.livilihood
-        + (1 | Country:Region:Community), data = household, na.action=na.omit)
+        + Fish.Eat + Fish.Income
+       + (1 | Country) + (1 | Region) + (1 | Community), data = household, na.action=na.omit)
 )
 
 
@@ -46,10 +52,17 @@ plot(household.psem)
 
 # Refine structral equations
 household.list2<- list(
+  lmer(Household.size ~ Men + Women + Children
+       + (1 | Country) + (1 | Region) + (1 | Community), data = household, na.action=na.omit),
+  
+  lmer(Household.Occupations ~ Household.size
+       + (1 | Country) + (1 | Region) + (1 | Community), data = household, na.action=na.omit),
+  
+
   lmer(Seagrass ~ Children
        + Household.Occupations
-       + Fishing.for.livilihood
-       + (1 | Country:Region:Community), data = household, na.action=na.omit)
+       + Fish.Income
+       + (1 | Country) + (1 | Region) + (1 | Community), data = household, na.action=na.omit)
 )
 
 household.psem2 <- as.psem(household.list2)
