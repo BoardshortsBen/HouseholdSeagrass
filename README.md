@@ -6,6 +6,3 @@ Authors: Benjamin L.H. Jones, Richard K.F. Unsworth, Lina M. Nordlund, Johan S. 
 Corresponding author: Benjamin L. Jones, Project Seagrass, UK; email: ben@projectseagrass.org
 
 This work has been published in Ocean & Coastal Management - https://doi.org/10.1016/j.ocecoaman.2022.106247
-
-# Data
-All raw data used in this analysis is located in the "Data" folder.
